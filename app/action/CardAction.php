@@ -57,6 +57,11 @@ switch ($action) {
         $_SESSION['activeNav'] = 'dashboard';
         $cardController->dashboard();
         break;
+    
+    case 'about':
+        $_SESSION['activeNav'] = 'about';
+        include ROOT_PATH . '/app/views/home/about.php';
+        break;
 
     default:
         $_SESSION['activeNav'] = 'home';

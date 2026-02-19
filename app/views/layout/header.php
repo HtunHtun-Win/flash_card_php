@@ -90,8 +90,8 @@ $activeNav = $_SESSION['activeNav'] ?? 'home';
                 <li class="nav-item">
                     <a href="/app/action/CardAction.php?action=mylist" class="nav-link <?= $activeNav == 'mylist' ? 'active' : ''; ?>">MyCard</a>
                 </li>
-                <li class="nav-item <?= $activeNav == 'about' ? 'active' : ''; ?>">
-                    <a href="#" class="nav-link">About</a>
+                <li class="nav-item">
+                    <a href="/app/action/CardAction.php?action=about" class="nav-link <?= $activeNav == 'about' ? 'active' : ''; ?>">About</a>
                 </li>
                 <li class="nav-item">
                     <?php if (isset($_SESSION['user'])): ?>
