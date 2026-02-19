@@ -70,9 +70,9 @@ class CardController
     {
         // Get card set info
         $cardSet = $this->cardSetModel->findById($cardSetId);
-        if (!$cardSet || ($cardSet->user_id != $userId && $_SESSION['user']->role != 'admin')) {
-            return null;
-        }
+        // if (!$cardSet || ($cardSet->user_id != $userId && $_SESSION['user']->role != 'admin')) {
+        //     return null;
+        // }
 
         // Get all cards in the set
         $cards = $this->cardModel->getAllBySetId($cardSetId);

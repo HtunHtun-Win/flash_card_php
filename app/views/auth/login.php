@@ -50,9 +50,9 @@
         <div class="card auth-card shadow-sm">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center mb-3">
-                    <div class="brand">FB</div>
+                    <div class="brand">iM</div>
                     <div>
-                        <h4 class="mb-0">Welcome back</h4>
+                        <h4 class="mb-0">Welcome</h4>
                         <div class="small-note">Sign in to continue to your flashcards</div>
                     </div>
                 </div>

@@ -1,0 +1,31 @@
+# Ignore build and distribution directories
+/dist
+/build
+/out
+
+# Ignore node.js dependencies
+node_modules/
+
+# Ignore environment variables
+.env
+.env.local
+
+# Ignore IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore log files
+logs/*.log
+!logs/debug.log  # Re-include debug.log if needed
+
+# Ignore specific file types
+*.tmp
+*.log
+*.bak
+
+# Keep empty directories by adding .gitkeep files
+# (e.g., create a .gitkeep file in each directory you want to preserve)
+uploads/.gitkeep
+images/.gitkeep

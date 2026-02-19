@@ -13,7 +13,7 @@ $activeNav = $_SESSION['activeNav'] ?? 'home';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FlashCard</title>
+    <title>iMemo</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -71,7 +71,7 @@ $activeNav = $_SESSION['activeNav'] ?? 'home';
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
         <div class="container-fluid">
-            <a href="#" class="navbar-brand">Flash Brain<span class="badge bg-white text-primary m-1"><?= isset($_SESSION['user']) ? $_SESSION['user']->name : 'Guest' ?></span></a>
+            <a href="#" class="navbar-brand">iMemo<span class="badge bg-white text-primary m-1"><?= isset($_SESSION['user']) ? $_SESSION['user']->name : 'Guest' ?></span></a>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="/app/action/CardAction.php?action=dashboard" class="nav-link <?= $activeNav == 'dashboard' ? 'active' : ''; ?>">Dashboard</a>

@@ -1,10 +1,40 @@
 <?php
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
 define('ROOT_PATH', dirname(__DIR__, 3));
 require_once ROOT_PATH . '/app/views/layout/header.php';
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+if (isset($_FILES['excel_file'])) {
+    $filePath = $_FILES['excel_file']['tmp_name'];
+
+    // Load Excel file
+    $spreadsheet = IOFactory::load($filePath);
+    $sheet = $spreadsheet->getActiveSheet();
+    $rows = $sheet->toArray();
+    unset($rows[0]);
+}
+$no = 1;
 ?>
 
 <div class="container mt-5">
     <h2>Create New Card Set</h2>
+    <!-- load data from excel file -->
+    <form action="/app/views/home/add_from_excel.php" method="post" enctype="multipart/form-data">
+        <div class="row g-2 align-items-end mb-3">
+            <div class="col-md-auto">
+                <label for="excel_file" class="form-label">Import Excel File</label>
+                <input type="file" name="excel_file" id="excel_file" class="form-control" required>
+            </div>
+
+            <!-- Add Card Button -->
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-success w-100">Check</button>
+            </div>
+        </div>
+    </form>
+    <!-- save data to db -->
     <form id="cardSetForm" action="/app/action/CardAction.php?action=saveSet" method="post">
 
         <div class="row g-2 align-items-end mb-3">
@@ -39,15 +69,6 @@ require_once ROOT_PATH . '/app/views/layout/header.php';
                 </select>
             </div>
 
-            <!-- Add Card Button -->
-            <div class="col-md-auto">
-                <button type="button" id="addCardBtn" class="btn btn-secondary w-100">Add Card</button>
-            </div>
-
-            <div class="col-md-auto">
-                <a href="/app/views/home/add_from_excel.php" class="btn btn-primary w-100">Import Excel</a>
-            </div>
-
             <!-- Save Button -->
             <div class="col-md-auto">
                 <button type="submit" class="btn btn-primary w-100">Save Card Set</button>
@@ -55,41 +76,49 @@ require_once ROOT_PATH . '/app/views/layout/header.php';
         </div>
 
         <!-- Cards container -->
-        <div id="cardsContainer">
-            <div class="card mb-3 card-block">
-                <div class="card-body">
-                    <h5 class="card-title">Card 1</h5>
-                    <div class="mb-3">
-                        <label>Question</label>
-                        <input type="text" name="cards[0][question]" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label>Options</label>
-                        <div class="row g-2"> <!-- g-2 adds small gap between columns -->
-                            <div class="col">
-                                <input type="text" name="cards[0][options][]" class="form-control" placeholder="Option 1" required>
+        <?php foreach ($rows as $index => $row) {
+            if (!empty($row[0]) && !empty($row[4])) {
+        ?>
+                <div id="cardsContainer">
+                    <div class="card mb-3 card-block">
+                        <div class="card-body">
+                            <h5 class="card-title">Card <?= $no ?></h5>
+                            <div class="mb-3">
+                                <label>Question</label>
+                                <input type="text" name="cards[<?= $index ?>][question]" class="form-control" value="<?= htmlspecialchars($row[0]) ?>" required>
                             </div>
-                            <div class="col">
-                                <input type="text" name="cards[0][options][]" class="form-control" placeholder="Option 2" required>
+                            <div class="mb-3">
+                                <label>Options</label>
+                                <div class="row g-2"> <!-- g-2 adds small gap between columns -->
+                                    <div class="col">
+                                        <input type="text" name="cards[<?= $index ?>][options][]" class="form-control" placeholder="Option 1" value="<?= htmlspecialchars($row[1]) ?>" required>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="cards[<?= $index ?>][options][]" class="form-control" placeholder="Option 2" value="<?= htmlspecialchars($row[2]) ?>" required>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="cards[<?= $index ?>][options][]" class="form-control" placeholder="Option 3" value="<?= htmlspecialchars($row[3]) ?>">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" name="cards[0][options][]" class="form-control" placeholder="Option 3">
+
+                            <div class="mb-3">
+                                <label>Correct Option</label>
+                                <select name="cards[<?= $index ?>][answer]" class="form-select" required>
+                                    <option value="0" <?= $row[4] == "a" ? "selected" : "" ?>>Option 1</option>
+                                    <option value="1" <?= $row[4] == "b" ? "selected" : "" ?>>Option 2</option>
+                                    <option value="2" <?= $row[4] == "c" ? "selected" : "" ?>>Option 3</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label>Correct Option</label>
-                        <select name="cards[0][answer]" class="form-select" required>
-                            <option value="0">Option 1</option>
-                            <option value="1">Option 2</option>
-                            <option value="2">Option 3</option>
-                        </select>
-                    </div>
                 </div>
-            </div>
-        </div>
 
+        <?php
+                $no++;
+            }
+        }
+        ?>
     </form>
 </div>
 
